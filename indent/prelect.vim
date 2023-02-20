@@ -1,40 +1,31 @@
 setlocal nolisp
+setlocal autoindent
 setlocal indentexpr=PrelectIndent(v:lnum)
 
 function! PrelectIndent(lnum)
+	let prevlnum = prevnonblank(a:lnum-1)
+	if prevlnum == 0
+		" top of file
+		return 0
+	endif
+
+	" grab the previous and current line, stripping comments.
+	let prevl = substitute(getline(prevlnum), '//.*$', '', '')
+	let thisl = substitute(getline(a:lnum), '//.*$', '', '')
+	let previ = indent(prevlnum)
 
 	let prevlnum = prevnonblank(v:lnum - 1) " Get number of last non-blank line
-	let result = 0
+	let ind = previ
 
-	if getline(prevlnum) =~ '<$'
-		let result += 1 " If last line opened a block: indent one level
-	endif
-	if getline(v:lnum) =~ '^\s*>'
-		let result -= 1 " If current line closes a block: dedent one level
+	if prevl =~ '[({]\s*$'
+		" previous line opened a block
+		let ind += shiftwidth()
 	endif
 
-	if getline(prevlnum) =~ '($'
-		let result += 1 " If last line opened a block: indent one level
-	endif
-	if getline(v:lnum) =~ '^\s*)'
-		let result -= 1 " If current line closes a block: dedent one level
+	if thisl =~ '^\s*[)}]'
+		" this line closed a block
+		let ind -= shiftwidth()
 	endif
 
-	if getline(prevlnum) =~ '{$'
-		let result += 1 " If last line opened a block: indent one level
-	endif
-	if getline(v:lnum) =~ '^\s*}'
-		let result -= 1 " If current line closes a block: dedent one level
-	endif
-
-	if getline(prevlnum) =~ '\[$'
-		let result += 1 " If last line opened a block: indent one level
-	endif
-	if getline(v:lnum) =~ '^\s*\]'
-		let result -= 1 " If current line closes a block: dedent one level
-	endif
-
-	" Get indentation level of last line and add new contribution
-	return (prevlnum > 0) * indent(prevlnum) + result * shiftwidth()
-
+	return ind
 endfunction

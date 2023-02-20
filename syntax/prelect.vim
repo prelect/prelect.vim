@@ -1,112 +1,101 @@
-syntax match prelectSpecial	/,/
-syntax match prelectSpecial	/</
-syntax match prelectSpecial	/>/
-syntax match prelectSpecial	/{/
-syntax match prelectSpecial	/}/
-syntax match prelectSpecial	/\[/
-syntax match prelectSpecial	/\]/
-syntax match prelectSpecial	/\v\(/
-syntax match prelectSpecial	/\v\)/
+syn match prelectSpecial	/{/
+syn match prelectSpecial	/}/
+syn match prelectSpecial	/\[/
+syn match prelectSpecial	/\]/
 
-syntax match prelectSpecial	/->/
-syntax match prelectSpecial	/<-/
-syntax match prelectKeyword	/_/
-syntax match prelectSpecial	/\./
+syn match prelectSpecial	/<-/
+syn match prelectSpecial	/\./
+syn match prelectSpecial	/:/
 
-syntax match prelectBoolean	/\v!!?(\()@!/
+syn match prelectBoolean	/\v!!?(\()@!/
 
-syntax match prelectNumber	/\c\<\%(\d\+\%(e[+-]\=\d\+\)\=\|0b[01]\+\|0o\o\+\|0x\%(\x\|_\)\+\)n\=\>/
-syntax match prelectNumber	/\c\<\%(\d\+\.\d\+\|\d\+\.\|\.\d\+\)\%(e[+-]\=\d\+\)\=\>/
+syn match prelectNumber	/\v([.0-9]|\w)@<!(\d|[1-9]\d+)([.0-9]|\w)@!/
+syn match prelectFloat	/\v([1-9][0-9]*|[0-9])\.\d+/
 
-syntax match prelectFloat	/\c\<\%(\d\+\.\d\+\|\d\+\.\|\.\d\+\)\%(e[+-]\=\d\+\)\=\>/
+syn match prelectType	/\v(\@{1,3}|\#\#?|\&|\$)([\#\&\$\@(])@!/
+syn match prelectType	/\v\@([^\(\)\{}\@<>:\n ])+/
 
-syntax match prelectType	/\v\@[a-zA-Z][a-zA-Z0-9_]*>(\s*\()@!/
-syntax match prelectType	/\v(\<\s*)@<=(\&|##|#|\$)(\s*\>\s*(\{|\())@=/
-syntax match prelectType	/\v(\<\s*)@<!(\&|##|#|\$)([a-zA-Z][a-zA-Z0-9_]*>[^\(|^\{])@=/
-syntax match prelectType	/@@/
-syntax match prelectType	/@@@/
+syn match prelectIdentifier	/\v([\@])@<!<[^\@:{}\()\#\$\&`0-9 ][^\@:{}\()\#\$\&`0-9 ]*>/
+syn match prelectIdentifier	/\v(\@)@<![^{.( \@a-z0-9]+(\()@=/
 
-syntax match prelectIdentifier	/\v(\-\>\s*)@<=[a-zA-Z][a-zA-Z0-9_]*/
-syntax match prelectIdentifier	/\v(\-\>\s*)@<![a-zA-Z][a-zA-Z0-9_]*>(\(|\{)@!/
+syn match prelectKeyword	/\v(\>\>|\>\>\>|_>|_^|_^^|_^^^)(\()@=/
 
-syntax region prelectInterpolation	start=/\v(\\)@<!\{\{/  end=/}}/ contains=prelectIdentifier
-syntax region prelectString	start=/`/  skip=/\v(\\`|\{\{)/  end=/`/ contains=prelectInterpolation
+syn region prelectString	start=/`/ skip=/\\`/ end=/`/
 
-syntax match prelectFunction	/\v([a-zA-Z][a-zA-Z0-9_]*)(\()@=/
+syn match prelectComment	/\/\/.*/
+syn region prelectComment	start=/\/\*/ end=/\*\//
 
-syntax match prelectConditional	/\v\|(\()@=/
-syntax match prelectConditional	/\v\>\=(\()@=/
-syntax match prelectConditional	/\v\>(\()@=/
-syntax match prelectConditional	/\v\<\=(\()@=/
-syntax match prelectConditional	/\v\<(\()@=/
-syntax match prelectConditional	/\v\~(\()@=/
-syntax match prelectConditional	/\v\=(\()@=/
-syntax match prelectConditional	/\v\=\=(\()@=/
-syntax match prelectConditional	/\v\=\=\=(\()@=/
-syntax match prelectConditional	/\v\?(\()@=/
+hi def link prelectSpecial	Special
+hi def link prelectBoolean	Boolean
+hi def link prelectNumber	Number
+hi def link prelectFloat	Float
+hi def link prelectType	Type
+hi def link prelectIdentifier	Identifier
+hi def link prelectString	String
 
-syntax match prelectOperator	/\v\$\$(\()@=/
-syntax match prelectOperator	/\v\?\?(\()@=/
-syntax match prelectOperator	/\v\%\%(\()@=/
-syntax match prelectOperator	/\v\#\#(\()@=/
-syntax match prelectOperator	/\v\@(\()@=/
-syntax match prelectOperator	/\v\!(\()@=/
-syntax match prelectOperator	/\v\#(\()@=/
-syntax match prelectOperator	/\v\$(\()@=/
-syntax match prelectOperator	/\v\^(\()@=/
-syntax match prelectOperator	/\v\&\&(\()@=/
-syntax match prelectOperator	/\v\&(\()@=/
-syntax match prelectOperator	/\v\*\*(\()@=/
-syntax match prelectOperator	/\v\*(\()@=/
-syntax match prelectOperator	/\v\-\-(\()@=/
-syntax match prelectOperator	/\v\-(\()@=/
-syntax match prelectOperator	/\v\+\+(\()@=/
-syntax match prelectOperator	/\v\+(\()@=/
-syntax match prelectOperator	/\v\/(\()@=/
+hi def link prelectKeyword	Keyword
 
-syntax match prelectException	/\v\>\>\>?(\()@=/
-syntax match prelectException	/\v_\>(\()@=/
-syntax match prelectException	/\v_\^(\()@=/
-syntax match prelectException	/\v_\^\^(\()@=/
-syntax match prelectException	/\v_\^\^\^(\()@=/
+hi def link prelectComment	Comment
 
-syntax match prelectKeyword	/\v(\s)@<=\&(\s+\w)@=/
-syntax match prelectKeyword	/\v(\s)@<=\<\&(\s+\w)@=/
-syntax match prelectKeyword	/\v(\s)@<=\<\&\>(\s+\w)@=/
-syntax match prelectKeyword	/\v(\s)@<=\<\<\&(\s+\w)@=/
-syntax match prelectKeyword	/\v(\s)@<=\&\>\>(\s+\w)@=/
-syntax match prelectKeyword	/\v(\s)@<=\<\<\&\>\>(\s+\w)@=/
-syntax match prelectKeyword	/\v(\s)@<=\>\&\<(\s+\w)@=/
+" lisp rainbow parentheses
 
-syntax match prelectKeyword	/\v(\s)@<=\%\<\&(\s+\w)@=/
-syntax match prelectKeyword	/\v(\s)@<=\%\<\&\>(\s+\w)@=/
-syntax match prelectKeyword	/\v(\s)@<=\%\<\<\&(\s+\w)@=/
-syntax match prelectKeyword	/\v(\s)@<=\%\&\>\>(\s+\w)@=/
-syntax match prelectKeyword	/\v(\s)@<=\%\<\<\&\>\>(\s+\w)@=/
-syntax match prelectKeyword	/\v(\s)@<=\%\>\&\<(\s+\w)@=/
+syn cluster all contains=prelectComment,prelectSpecial,prelectBoolean,prelectNumber,prelectFloat,prelectType,prelectIdentifier,prelectString,prelectKeyword,prelectComment
 
-syntax match prelectKeyword	/\v(\s)@<=\?\?(\s+)@=/
-syntax match prelectKeyword	/\v(\s)@<=\&\&(\s+)@=/
-syntax match prelectKeyword	/\v(\s)@<=\%\%(\s+)@=/
-syntax match prelectKeyword	/\v(\s)@<=\|\|(\s+)@=/
+syn region lispParen0 matchgroup=hlLevel0 start="`\=(" end=")" skip="|.\{-}|" contains=@all,lispParen1
+syn region lispParen1 contained matchgroup=hlLevel1 start="`\=(" end=")" skip="|.\{-}|" contains=@all,lispParen2
+syn region lispParen2 contained matchgroup=hlLevel2 start="`\=(" end=")" skip="|.\{-}|" contains=@all,lispParen3
+syn region lispParen3 contained matchgroup=hlLevel3 start="`\=(" end=")" skip="|.\{-}|" contains=@all,lispParen4
+syn region lispParen4 contained matchgroup=hlLevel4 start="`\=(" end=")" skip="|.\{-}|" contains=@all,lispParen5
+syn region lispParen5 contained matchgroup=hlLevel5 start="`\=(" end=")" skip="|.\{-}|" contains=@all,lispParen6
+syn region lispParen6 contained matchgroup=hlLevel6 start="`\=(" end=")" skip="|.\{-}|" contains=@all,lispParen7
+syn region lispParen7 contained matchgroup=hlLevel7 start="`\=(" end=")" skip="|.\{-}|" contains=@all,lispParen8
+syn region lispParen8 contained matchgroup=hlLevel8 start="`\=(" end=")" skip="|.\{-}|" contains=@all,lispParen9
+syn region lispParen9 contained matchgroup=hlLevel9 start="`\=(" end=")" skip="|.\{-}|" contains=@all,lispParen0
 
-syntax match prelectComment	/\/\/.*/
-syntax region prelectComment	start=/\/\*/ end=/\*\//
+if &bg == "dark"
+	hi def hlLevel0 ctermfg=red		guifg=red1
+	hi def hlLevel1 ctermfg=yellow	guifg=orange1
+	hi def hlLevel2 ctermfg=green	guifg=yellow1
+	hi def hlLevel3 ctermfg=cyan	guifg=greenyellow
+	hi def hlLevel4 ctermfg=magenta	guifg=green1
+	hi def hlLevel5 ctermfg=red		guifg=springgreen1
+	hi def hlLevel6 ctermfg=yellow	guifg=cyan1
+	hi def hlLevel7 ctermfg=green	guifg=slateblue1
+	hi def hlLevel8 ctermfg=cyan	guifg=magenta1
+	hi def hlLevel9 ctermfg=magenta	guifg=purple1
+else
+	hi def hlLevel0 ctermfg=red		guifg=red3
+	hi def hlLevel1 ctermfg=darkyellow	guifg=orangered3
+	hi def hlLevel2 ctermfg=darkgreen	guifg=orange2
+	hi def hlLevel3 ctermfg=blue	guifg=yellow3
+	hi def hlLevel4 ctermfg=darkmagenta	guifg=olivedrab4
+	hi def hlLevel5 ctermfg=red		guifg=green4
+	hi def hlLevel6 ctermfg=darkyellow	guifg=paleturquoise3
+	hi def hlLevel7 ctermfg=darkgreen	guifg=deepskyblue4
+	hi def hlLevel8 ctermfg=blue	guifg=darkslateblue
+	hi def hlLevel9 ctermfg=darkmagenta	guifg=darkviolet
+endif
 
-highlight default link prelectSpecial	Special
-highlight default link prelectBoolean	Boolean
-highlight default link prelectNumber	Number
-highlight default link prelectFloat	Float
-highlight default link prelectType	Type
-highlight default link prelectIdentifier	Identifier
-highlight default link prelectInterpolation	Special
-highlight default link prelectString	String
-
-highlight default link prelectFunction	Function
-highlight default link prelectConditional	Function
-highlight default link prelectOperator	Function
-
-highlight default link prelectException	Exception
-highlight default link prelectKeyword	Keyword
-
-highlight default link prelectComment	Comment
+if &bg == "dark"
+	hi def hlLevel0 ctermfg=red         guifg=red1
+	hi def hlLevel1 ctermfg=yellow      guifg=orange1
+	hi def hlLevel2 ctermfg=green       guifg=yellow1
+	hi def hlLevel3 ctermfg=cyan        guifg=greenyellow
+	hi def hlLevel4 ctermfg=magenta     guifg=green1
+	hi def hlLevel5 ctermfg=red         guifg=springgreen1
+	hi def hlLevel6 ctermfg=yellow      guifg=cyan1
+	hi def hlLevel7 ctermfg=green       guifg=slateblue1
+	hi def hlLevel8 ctermfg=cyan        guifg=magenta1
+	hi def hlLevel9 ctermfg=magenta     guifg=purple1
+else
+	hi def hlLevel0 ctermfg=red         guifg=red3
+	hi def hlLevel1 ctermfg=darkyellow  guifg=orangered3
+	hi def hlLevel2 ctermfg=darkgreen   guifg=orange2
+	hi def hlLevel3 ctermfg=blue        guifg=yellow3
+	hi def hlLevel4 ctermfg=darkmagenta guifg=olivedrab4
+	hi def hlLevel5 ctermfg=red         guifg=green4
+	hi def hlLevel6 ctermfg=darkyellow  guifg=paleturquoise3
+	hi def hlLevel7 ctermfg=darkgreen   guifg=deepskyblue4
+	hi def hlLevel8 ctermfg=blue        guifg=darkslateblue
+	hi def hlLevel9 ctermfg=darkmagenta guifg=darkviolet
+endif
