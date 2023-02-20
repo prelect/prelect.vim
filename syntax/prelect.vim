@@ -15,8 +15,9 @@ syn match prelectFloat	/\v([1-9][0-9]*|[0-9])\.\d+/
 syn match prelectType	/\v(\@{1,3}|\#\#?|\&|\$)([\#\&\$\@(])@!/
 syn match prelectType	/\v\@([^\(\)\{}\@<>:\n ])+/
 
-syn match prelectIdentifier	/\v([\@])@<!<[^\@:{}\()\#\$\&`0-9 ][^\@:{}\()\#\$\&`0-9 ]*>/
+syn match prelectIdentifier	/\v([\@])@<!<[^\@:{}\()\#\$\&`0-9 ][^\@:{}\()\#\$\&` ]*>/
 syn match prelectIdentifier	/\v(\@)@<![^{.( \@a-z0-9]+(\()@=/
+syn match prelectIdentifier	/\v(\@)@<!\@(\()@=/
 
 syn match prelectKeyword	/\v(\>\>|\>\>\>|_>|_^|_^^|_^^^)(\()@=/
 
