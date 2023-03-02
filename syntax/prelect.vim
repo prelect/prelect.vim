@@ -1,5 +1,3 @@
-syn match prelectSpecial	/{/
-syn match prelectSpecial	/}/
 syn match prelectSpecial	/</
 syn match prelectSpecial	/>/
 syn match prelectSpecial	/\[/
@@ -18,7 +16,7 @@ syn match prelectNumber	/\v([ \(\)\{\}\[\]\n])@<=[\-]?0[xX][1-9a-fA-F][0-9a-fA-F
 
 syn match prelectKeyword	/\v(\>\>|\>\>\>|_|_>|_^|_^^|_^^^)(\()@=/
 
-syn match prelectIdentifier /\v([ \n\r\t\[\]\(\)\{\}\<\>\@])@<=([^ _\n\r\t0-9\(\)\{\}\[\]\<\>\*:\-\!\/`])([^ \n\r\t\(\)\{\}\[\]\<\>\*:\!\/`])*/
+syn match prelectIdentifier /\v([ \n\r\t\[\]\(\)\{\}\<\>\@\.])@<=([^ _\n\r\t0-9\(\)\{\}\[\]\<\>\*:\-\!\/`])([^ \n\r\t\(\)\{\}\[\]\<\>\*:\!\/`])*/
 
 syn match prelectType	/\v(\@{1,3}|\#\#?|\&|\$)([\#\&\$\@(])@!/
 syn match prelectType	/\v\@([^\(\)\{}\@<>:\n ])+/
@@ -28,6 +26,9 @@ syn match prelectIdentifier	/\v(\@)@<!\@(\()@=/
 
 syn region prelectString start=/`/ skip=/\v\\./ end=/`/ oneline contains=prelectInterWrap
 syn region prelectInterWrap start="\v(\\)@<!\{\s*" end="\v\s*\}" contained containedin=prelectString contains=prelectIdentifier
+
+syn match prelectSpecial	/{/
+syn match prelectSpecial	/}/
 
 syn match prelectComment	/\/\/.*/
 syn region prelectComment	start=/\/\*/ end=/\*\//
