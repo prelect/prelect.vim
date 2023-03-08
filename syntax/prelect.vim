@@ -24,6 +24,7 @@ syn match prelectType	/\v\@([^\(\)\{}\@<>:\n ])+/
 syn match prelectIdentifier	/\v(\@)@<![^{.( \@a-z0-9]+(\()@=/
 syn match prelectIdentifier	/\v(\@)@<!\@(\()@=/
 
+syn region prelectString start=/"/ skip=/\v\\"/ end=/"/
 syn region prelectString start=/`/ skip=/\v\\./ end=/`/ oneline contains=prelectInterWrap
 syn region prelectInterWrap start="\v(\\)@<!\{\s*" end="\v\s*\}" contained containedin=prelectString contains=prelectIdentifier
 
@@ -33,7 +34,7 @@ syn match prelectSpecial	/}/
 syn match prelectComment	/\/\/.*/
 syn region prelectComment	start=/\/\*/ end=/\*\//
 
-hi def link prelectInterpolated Special
+hi def link prelectInterWrap	Special
 hi def link prelectSpecial	Special
 hi def link prelectBoolean	Boolean
 hi def link prelectNumber	Number
