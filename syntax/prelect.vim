@@ -4,6 +4,7 @@ syn match prelectSpecial	/\[/
 syn match prelectSpecial	/\]/
 
 syn match prelectSpecial	/<-/
+syn match prelectSpecial	/->/
 syn match prelectSpecial	/\./
 syn match prelectSpecial	/:/
 syn match prelectSpecial	/\v\*{1,3}(\))@!/
